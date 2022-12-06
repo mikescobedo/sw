@@ -23,12 +23,9 @@ self.addEventListener('install', e=>{
 });
 
 self.addEventListener('fetch', e =>{
-    //cache with network fallback
     const respuesta = caches.match( e.request )
         .then ( res => {
             if ( res ) return res;
-            //no existe el archivo
-            //tengo que ir a la web
             console.log('No existe', e.request.url);
             return fetch( e.request ).then ( newResp => {
                 caches.open('cache-v1')
@@ -41,6 +38,4 @@ self.addEventListener('fetch', e =>{
             });
         });
         e.respondWith(respuesta);
-    //only cache
-    //e.respondWith( caches.match(e.request));
 });
